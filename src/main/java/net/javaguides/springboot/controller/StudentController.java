@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+// @RequestMapping: base URL for all the method
+@RequestMapping("students")
 public class StudentController {
     //http://localhost:8080/student
     @GetMapping("student")
@@ -26,7 +28,7 @@ public class StudentController {
                 header("custom-header","Mona").body(student);
     }
     //http://localhost:8080/students
-    @GetMapping("students")
+    @GetMapping
     public ResponseEntity<List<Student>> getStudents(){
         List<Student> students = new ArrayList<>();
         students.add(new Student(1, "MONA","XU"));
@@ -38,7 +40,7 @@ public class StudentController {
     // SpringBoot Rest API with Path Variable
     //{id} URI template variable
     //http://localhost:8080/students/1/Mona/Xu
-    @GetMapping("students/{id}/{first-name}/{last-name}")
+    @GetMapping("{id}/{first-name}/{last-name}")
     public ResponseEntity<Student> studentPathVariable(@PathVariable("id") int studentId,
                                        @PathVariable("first-name") String firstName,
                                        @PathVariable("last-name") String lastName){
@@ -49,7 +51,7 @@ public class StudentController {
     //SpringBoot REST API with Request Param
     //id=1  : Query Parameter
     //http://localhost:8080/students/query?id=1&firstName=MONA&lastName=XU
-    @GetMapping("students/query")
+    @GetMapping("query")
     public ResponseEntity<Student> studentRequestVariable(@RequestParam int id,
                                           @RequestParam String firstName,
                                           @RequestParam String lastName){
@@ -73,7 +75,7 @@ public class StudentController {
 
     //SpringBoot REST API that handles HTTP PUT Request - updating existing resource
     //http://localhost:8080/students/3/update
-    @PutMapping("students/{id}/update")
+    @PutMapping("{id}/update")
     public ResponseEntity<Student> updateStudent(@RequestBody Student student, @PathVariable("id") int studentId){
         System.out.println(student.getFirstName());
         System.out.println(student.getLastName());
@@ -82,7 +84,7 @@ public class StudentController {
 
     // SpringBoot REST API that handles HTTP DELETE Request - deleting the existing resource
     //http://localhost:8080/students/3/delete
-    @DeleteMapping("students/{id}/delete")
+    @DeleteMapping("{id}/delete")
     public ResponseEntity<String> deleteStudent(@PathVariable("id") int studentId){
         return ResponseEntity.ok("Student deleted successfully!");
     }
