@@ -1,10 +1,8 @@
 package net.javaguides.springboot.controller;
 
 import net.javaguides.springboot.bean.Student;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +48,40 @@ public class StudentController {
                                           @RequestParam String lastName){
         return new Student(id, firstName,lastName);
     }
+
+    //SpringBoot REST API that handles HTTP POST Request - creating new resource
+    //@PostMapping and @RequestBody
+    //http://localhost:8080/student/create
+    @PostMapping("student/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Student createStudent(@RequestBody Student student){
+        //@RequestBody is responsible for retrieving the HTTP request body
+        // and automatically converting it to the Java object
+        System.out.println(student.getId());
+        System.out.println(student.getFirstName());
+        System.out.println(student.getLastName());
+        return student;
+    }
+
+    //SpringBoot REST API that handles HTTP PUT Request - updating existing resource
+    //http://localhost:8080/students/3/update
+    @PutMapping("students/{id}/update")
+    public Student updateStudent(@RequestBody Student student, @PathVariable("id") int studentId){
+        System.out.println(student.getFirstName());
+        System.out.println(student.getLastName());
+        return student;
+    }
+
+    // SpringBoot REST API that handles HTTP DELETE Request - deleting the existing resource
+    //http://localhost:8080/students/3/delete
+    @DeleteMapping("students/{id}/delete")
+    public String deleteStudent(@PathVariable("id") int studentId){
+        return "Student deleted successfully!";
+    }
+
+
+
+
 
 
 }
